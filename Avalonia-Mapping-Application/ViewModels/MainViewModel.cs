@@ -13,6 +13,6 @@ public partial class MainViewModel : ViewModelBase
 
     void Login()
     {
-        Locator.
+
     }
 }

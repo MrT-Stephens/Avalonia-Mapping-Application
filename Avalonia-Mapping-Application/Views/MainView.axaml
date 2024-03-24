@@ -13,54 +13,81 @@
     <vm:MainViewModel />
   </Design.DataContext>
 
-  <SplitView DisplayMode="CompactInline" CompactPaneLength="25" PanePlacement="Left" IsPaneOpen="True">
-    <SplitView.Pane>
-      <DockPanel VerticalAlignment="Stretch">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <SplitView Grid.Row="0" DisplayMode="Inline" PanePlacement="Left" IsPaneOpen="{Binding IsUserLoggedIn}">
+      <SplitView.Pane>
+        <DockPanel VerticalAlignment="Stretch">
 
-        <Border DockPanel.Dock="Top" Margin="20 20 20 20" HorizontalAlignment="Stretch">
-          <TextBlock Text="Mapping Application" />
-        </Border>
+          <Border DockPanel.Dock="Top" Margin="20 20 20 20" HorizontalAlignment="Stretch">
+            <TextBlock Text="Mapping Application" />
+          </Border>
 
-        <Expander DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" ExpandDirection="Up">
+          <Expander DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" ExpandDirection="Up">
 
-          <Expander.Header>
-            <StackPanel Orientation="Horizontal" Spacing="20">
-              <PathIcon Data="{StaticResource AccountIcon}" VerticalAlignment="Center" />
-              <TextBlock Text="Account" VerticalAlignment="Center" />
-            </StackPanel>
-          </Expander.Header>
-
-          <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" Margin="10 10 10 10" Spacing="10">
-            <Button HorizontalAlignment="Stretch" Padding="10">
+            <Expander.Header>
               <StackPanel Orientation="Horizontal" Spacing="20">
                 <PathIcon Data="{StaticResource AccountIcon}" VerticalAlignment="Center" />
-                <TextBlock Text="Profile" VerticalAlignment="Center" />
+                <TextBlock Text="Account" VerticalAlignment="Center" />
               </StackPanel>
-            </Button>
+            </Expander.Header>
 
-            <Button HorizontalAlignment="Stretch" Padding="10">
-              <StackPanel Orientation="Horizontal" Spacing="20">
-                <PathIcon Data="{StaticResource LogoutIcon}" VerticalAlignment="Center" />
-                <TextBlock Text="Logout" VerticalAlignment="Center" />
-              </StackPanel>
-            </Button>
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" Margin="10 10 10 10" Spacing="10">
+              <Button HorizontalAlignment="Stretch" Padding="10">
+                <StackPanel Orientation="Horizontal" Spacing="20">
+                  <PathIcon Data="{StaticResource AccountIcon}" VerticalAlignment="Center" />
+                  <TextBlock Text="Profile" VerticalAlignment="Center" />
+                </StackPanel>
+              </Button>
 
+              <Button HorizontalAlignment="Stretch" Padding="10" Command="{Binding LogoutCommand}">
+                <StackPanel Orientation="Horizontal" Spacing="20">
+                  <PathIcon Data="{StaticResource LogoutIcon}" VerticalAlignment="Center" />
+                  <TextBlock Text="Logout" VerticalAlignment="Center" />
+                </StackPanel>
+              </Button>
+
+            </StackPanel>
+          </Expander>
+
+          <ScrollViewer>
+            <StackPanel Margin="20 20 20 20" Orientation="Vertical" HorizontalAlignment="Stretch" Spacing="15">
+              <Button HorizontalAlignment="Stretch" Padding="10">
+                <StackPanel Orientation="Horizontal" Spacing="20">
+                  <PathIcon Data="{StaticResource CurrentLocationIcon}" VerticalAlignment="Center" />
+                  <TextBlock Text="Current Location" VerticalAlignment="Center" />
+                </StackPanel>
+              </Button>
+            </StackPanel>
+          </ScrollViewer>
+
+        </DockPanel>
+      </SplitView.Pane>
+      <avalonia:MapControl x:Name="MapControl" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+    </SplitView>
+    <Popup x:Name="LoginPopup" Grid.Row="1" IsOpen="{Binding !IsUserLoggedIn}" Placement="AnchorAndGravity"
+           Width="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=Width}"
+           Height="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=Height}">
+      <Border Background="Black" Opacity="10">
+        <Border HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="WhiteSmoke" BorderThickness="2" Padding="20" CornerRadius="20" Margin="20 20 20 20" MaxWidth="350">
+          <StackPanel Orientation="Vertical" Spacing="20">
+            <TextBlock Text="Login to your account" HorizontalAlignment="Center" Margin="25 0 25 0"/>
+            <StackPanel Orientation="Vertical">
+              <Label Content="Email:" />
+              <TextBox Text="{Binding Email}" HorizontalAlignment="Stretch" />
+            </StackPanel>
+            <StackPanel Orientation="Vertical">
+              <Label Content="Password:" />
+              <TextBox Text="{Binding Password}" HorizontalAlignment="Stretch" />
+            </StackPanel>
+            <TextBlock Text="{Binding LoginStatus}" TextWrapping="Wrap" FontSize="12" Foreground="Red" HorizontalAlignment="Center" IsVisible="{Binding LoginStatusNotEmpty}" />
+            <Button Content="Login" HorizontalAlignment="Left" Padding="30 8 30 8" Command="{Binding LoginCommand}" />
           </StackPanel>
-        </Expander>
-
-        <ScrollViewer>
-          <StackPanel Margin="20 20 20 20" Orientation="Vertical" HorizontalAlignment="Stretch" Spacing="15">
-            <Button HorizontalAlignment="Stretch" Padding="10">
-              <StackPanel Orientation="Horizontal" Spacing="20">
-                <PathIcon Data="{StaticResource CurrentLocationIcon}" VerticalAlignment="Center" />
-                <TextBlock Text="Current Location" VerticalAlignment="Center" />
-              </StackPanel>
-            </Button>
-          </StackPanel>
-        </ScrollViewer>
-
-      </DockPanel>
-    </SplitView.Pane>
-    <avalonia:MapControl x:Name="MapControl" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
-  </SplitView>
+        </Border>
+      </Border>
+    </Popup>
+  </Grid>
 </UserControl>

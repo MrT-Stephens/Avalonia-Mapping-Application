@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
+using System.Net;
 
 namespace Avalonia_Mapping_Application.Services
 {
@@ -13,10 +14,10 @@ namespace Avalonia_Mapping_Application.Services
             client = null;
         }
 
-        public void Connect(ref string email, ref string password)
+        public bool Connect(string email, string password)
         {
             var settings = MongoClientSettings.FromConnectionString(
-                $"mongodb+srv://{email.Split('@')[0]}:{password}@mrt-stephens.x797uqs.mongodb.net/?retryWrites=true&w=majority&appName=MrT-Stephens");
+                $"mongodb+srv://{WebUtility.UrlEncode(email.Split('@')[0])}:{WebUtility.UrlEncode(password)}@mrt-stephens.x797uqs.mongodb.net/?retryWrites=true&w=majority&appName=MrT-Stephens");
 
             settings.ServerApi = new ServerApi(ServerApiVersion.V1);
 
@@ -25,13 +26,18 @@ namespace Avalonia_Mapping_Application.Services
             try
             {
                 var result = client.GetDatabase("admin").RunCommand<BsonDocument>(new BsonDocument("ping", 1));
-                Console.WriteLine("GHFHDFJFJDFJJJJJJJJJJDFJDFJFF");
-                Console.WriteLine("Pinged your deployment. You successfully connected to MongoDB!");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine(ex);
+                return false;
             }
+
+            return true;
+        }
+
+        public void Disconnect()
+        {
+            client = null;
         }
     }
 }

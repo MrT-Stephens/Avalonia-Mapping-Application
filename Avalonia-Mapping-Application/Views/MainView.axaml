@@ -68,7 +68,7 @@
       </SplitView.Pane>
       <avalonia:MapControl x:Name="MapControl" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
     </SplitView>
-    <Popup x:Name="LoginPopup" Grid.Row="1" IsOpen="{Binding !IsUserLoggedIn}" Placement="AnchorAndGravity"
+    <Popup x:Name="LoginPopup" Loaded="LoginPopupLoaded" Grid.Row="1" IsOpen="{Binding !IsUserLoggedIn}" Placement="AnchorAndGravity"
            Width="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=Width}"
            Height="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=Height}">
       <Border Background="Black" Opacity="10">

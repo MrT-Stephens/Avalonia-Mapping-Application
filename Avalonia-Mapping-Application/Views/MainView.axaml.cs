@@ -1,9 +1,10 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using Mapsui;
 using Mapsui.Extensions;
 using Mapsui.Tiling;
-using Mapsui.Widgets;
 using Mapsui.Widgets.MouseCoordinatesWidget;
 using Mapsui.Widgets.Zoom;
 
@@ -14,6 +15,8 @@ public partial class MainView : UserControl
     public MainView()
     {
         InitializeComponent();
+
+        SizeChanged += (sender, args) => ResizeLoginPopup(LoginPopup);
     }
 
     private void InitializeComponent()
@@ -49,14 +52,19 @@ public partial class MainView : UserControl
         };
     }
 
-    private async void CurrentLocationButtonClick(object sender, RoutedEventArgs e)
+    private void LoginPopupLoaded(object sender, RoutedEventArgs e)
     {
+        ResizeLoginPopup((Popup)sender);
+    }
 
-        //if (location != null)
-        //{
-        //    var mPoint = SphericalMercator.FromLonLat(location.Longitude, location.Latitude).ToMPoint();
+    private void ResizeLoginPopup(Popup popup)
+    {
+        var topLevel = TopLevel.GetTopLevel(this);
 
-        //    MapControl.Map.Navigator.CenterOnAndZoomTo(mPoint, 0.5);
-        //}
+        if (topLevel != null && popup != null)
+        {
+            popup.Height = topLevel.Height;
+            popup.Width = topLevel.Width;
+        }
     }
 }

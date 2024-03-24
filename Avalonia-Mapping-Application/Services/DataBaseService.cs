@@ -2,6 +2,7 @@
 using MongoDB.Driver;
 using System;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace Avalonia_Mapping_Application.Services
 {
@@ -14,25 +15,28 @@ namespace Avalonia_Mapping_Application.Services
             client = null;
         }
 
-        public bool Connect(string email, string password)
+        public Task<bool> Connect(string email, string password)
         {
-            var settings = MongoClientSettings.FromConnectionString(
-                $"mongodb+srv://{WebUtility.UrlEncode(email.Split('@')[0])}:{WebUtility.UrlEncode(password)}@mrt-stephens.x797uqs.mongodb.net/?retryWrites=true&w=majority&appName=MrT-Stephens");
-
-            settings.ServerApi = new ServerApi(ServerApiVersion.V1);
-
-            client = new MongoClient(settings);
-
-            try
+            return Task.Run(() =>
             {
-                var result = client.GetDatabase("admin").RunCommand<BsonDocument>(new BsonDocument("ping", 1));
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+                var settings = MongoClientSettings.FromConnectionString(
+                    $"mongodb+srv://{WebUtility.UrlEncode(email.Split('@')[0])}:{WebUtility.UrlEncode(password)}@mrt-stephens.x797uqs.mongodb.net/?retryWrites=true&w=majority&appName=MrT-Stephens");
 
-            return true;
+                settings.ServerApi = new ServerApi(ServerApiVersion.V1);
+
+                client = new MongoClient(settings);
+
+                try
+                {
+                    var result = client.GetDatabase("admin").RunCommand<BsonDocument>(new BsonDocument("ping", 1));
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+
+                return true;
+            });
         }
 
         public void Disconnect()

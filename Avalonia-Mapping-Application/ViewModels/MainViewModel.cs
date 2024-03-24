@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using Splat;
 using System.Reactive.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Avalonia_Mapping_Application.ViewModels;
 
@@ -41,7 +42,7 @@ public partial class MainViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void Login()
+    private async Task Login()
     {
         if (!Regex.IsMatch(Email, @"^[a-z0-9][-a-z0-9._]+@([-a-z0-9]+\.)+[a-z]{2,5}$"))
         {
@@ -56,7 +57,7 @@ public partial class MainViewModel : ViewModelBase
         else
         {
             LoginStatus = "Logging in...";
-            IsUserLoggedIn = DataBaseService.Connect(Email, Password);
+            IsUserLoggedIn = await DataBaseService.Connect(Email, Password);
             Email = string.Empty;
             Password = string.Empty;
         }

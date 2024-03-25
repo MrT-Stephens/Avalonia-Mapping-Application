@@ -7,6 +7,7 @@ using Mapsui.Extensions;
 using Mapsui.Tiling;
 using Mapsui.Widgets.MouseCoordinatesWidget;
 using Mapsui.Widgets.Zoom;
+using ReactiveUI;
 
 namespace Avalonia_Mapping_Application.Views;
 

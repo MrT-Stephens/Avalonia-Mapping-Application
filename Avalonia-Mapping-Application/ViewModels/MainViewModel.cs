@@ -1,10 +1,10 @@
 ﻿using Avalonia_Mapping_Application.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Splat;
-using System.Reactive.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Avalonia_Mapping_Application.DataModels;
+using System.Collections.ObjectModel;
 
 namespace Avalonia_Mapping_Application.ViewModels;
 
@@ -15,19 +15,26 @@ public partial class MainViewModel : ViewModelBase
     public MainViewModel()
     {
         DataBaseService = new DataBaseService();
+        GeoCoordinates = new ObservableCollection<GeoCoordinate>();
     }
 
     [ObservableProperty]
-    private string _Email = string.Empty;
+    private ObservableCollection<GeoCoordinate> _GeoCoordinates;
 
     [ObservableProperty]
-    private string _Password = string.Empty;
+    private string _Email = "mrtstephens123@gmail.com";
+
+    [ObservableProperty]
+    private string _Password = "TStephens123!";
 
     [ObservableProperty]
     private bool _IsUserLoggedIn = false;
 
     [ObservableProperty]
     private bool _LoginStatusNotEmpty = false;
+
+    [ObservableProperty]
+    private string _NewDatasetName = string.Empty;
 
     private string _LoginStatus = string.Empty;
 

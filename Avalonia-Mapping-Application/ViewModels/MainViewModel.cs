@@ -5,6 +5,8 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Avalonia_Mapping_Application.DataModels;
 using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
+using Avalonia.Controls;
 
 namespace Avalonia_Mapping_Application.ViewModels;
 
@@ -16,10 +18,23 @@ public partial class MainViewModel : ViewModelBase
     {
         DataBaseService = new DataBaseService();
         GeoCoordinates = new ObservableCollection<GeoCoordinate>();
+        SelectedGeoCoordinate = null;
     }
 
     [ObservableProperty]
     private ObservableCollection<GeoCoordinate> _GeoCoordinates;
+
+    [ObservableProperty]
+    private bool _UpdatingGeoCoordinate = false;
+
+    [ObservableProperty]
+    private string _Name = string.Empty;
+
+    [ObservableProperty]
+    private string _Latitude = string.Empty;
+
+    [ObservableProperty]
+    private string _Longitude = string.Empty;
 
     [ObservableProperty]
     private string _Email = "mrtstephens123@gmail.com";
@@ -35,6 +50,18 @@ public partial class MainViewModel : ViewModelBase
 
     [ObservableProperty]
     private string _NewDatasetName = string.Empty;
+
+    private GeoCoordinate? _SelectedGeoCoordinate;
+
+    public GeoCoordinate? SelectedGeoCoordinate
+    {
+        get => _SelectedGeoCoordinate;
+        set
+        {
+            SetProperty(ref _SelectedGeoCoordinate, value);
+            SelectionChanged(value);
+        }
+    }
 
     private string _LoginStatus = string.Empty;
 
@@ -67,6 +94,11 @@ public partial class MainViewModel : ViewModelBase
             IsUserLoggedIn = await DataBaseService.Connect(Email, Password);
             Email = string.Empty;
             Password = string.Empty;
+
+            if (IsUserLoggedIn)
+            {
+                GeoCoordinates = new ObservableCollection<GeoCoordinate>(await DataBaseService.GetGeoCoordinates());
+            }
         }
     }
 
@@ -76,5 +108,40 @@ public partial class MainViewModel : ViewModelBase
         IsUserLoggedIn = false;
         LoginStatus = string.Empty;
         DataBaseService.Disconnect();
+    }
+
+    [RelayCommand]
+    private async Task AddGeoCoordinate()
+    {
+        if (!string.IsNullOrEmpty(Name) || !string.IsNullOrEmpty(Latitude) || !string.IsNullOrEmpty(Longitude))
+        {
+            DataBaseService.AddGeoCoordinate(new GeoCoordinate { Name = Name, Latitude = double.Parse(Latitude), Longitude = double.Parse(Longitude) });
+
+            Name = string.Empty;
+            Latitude = string.Empty;
+            Longitude = string.Empty;
+
+            GeoCoordinates = new ObservableCollection<GeoCoordinate>(await DataBaseService.GetGeoCoordinates());
+        }
+    }
+
+    private void SelectionChanged(GeoCoordinate? geoCoordinate)
+    {
+        if (SelectedGeoCoordinate != null)
+        {
+            Name = SelectedGeoCoordinate.Name;
+            Latitude = SelectedGeoCoordinate.Latitude.ToString();
+            Longitude = SelectedGeoCoordinate.Longitude.ToString();
+
+            UpdatingGeoCoordinate = true;
+        }
+        else
+        {
+            Name = string.Empty;
+            Latitude = string.Empty;
+            Longitude = string.Empty;
+
+            UpdatingGeoCoordinate = false;
+        }
     }
 }

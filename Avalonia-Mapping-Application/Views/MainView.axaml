@@ -26,7 +26,7 @@
             <TextBlock Text="Mapping Application" />
           </Border>
 
-          <Expander DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" ExpandDirection="Up">
+          <Expander DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" ExpandDirection="Up" ZIndex="50">
 
             <Expander.Header>
               <StackPanel Orientation="Horizontal" Spacing="20">
@@ -53,62 +53,73 @@
             </StackPanel>
           </Expander>
 
-          <StackPanel Orientation="Vertical">
-            
-            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20 20 20 20">
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-              </Grid.ColumnDefinitions>
-              <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-              </Grid.RowDefinitions>
-              <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Vertical" Margin="0 0 0 5">
-                <Label Content="Name:" />
-                <TextBox HorizontalAlignment="Stretch" Margin="0 0 10 0" />
-              </StackPanel>
-              <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Vertical" Margin="0 5 0 5">
-                <Label Content="Latitude:" />
-                <TextBox HorizontalAlignment="Stretch" Margin="0 0 10 0" />
-              </StackPanel>
-              <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Vertical" Margin="0 5 0 0">
-                <Label Content="Longitude:" />
-                <TextBox HorizontalAlignment="Stretch" Margin="0 0 10 0" />
-              </StackPanel>
-              <Button Grid.Column="1" Grid.RowSpan="3" Content="+" VerticalAlignment="Stretch">
-                <TextBlock TextAlignment="Center" VerticalAlignment="Center" Text="+" />
-              </Button>
-            </Grid>
-            <ScrollViewer>
-              <ListBox ItemsSource="{Binding GeoCoordinates}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <ListBox.ItemTemplate>
-                  <DataTemplate>
-                    <Border BorderBrush="Black" BorderThickness="1" Padding="10 10 10 10" Margin="20 20 20 20">
-                      <StackPanel Orientation="Vertical">
-                        <StackPanel Orientation="Horizontal">
-                          <TextBlock Text="Name:" />
-                          <TextBlock Text="{Binding Name}" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                          <TextBlock Text="Latitude:" />
-                          <TextBlock Text="{Binding Latitude}" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                          <TextBlock Text="Longitude:" />
-                          <TextBlock Text="{Binding Longitude}" />
-                        </StackPanel>
-                      </StackPanel>
-                    </Border>
-                  </DataTemplate>
-                </ListBox.ItemTemplate>
-              </ListBox>
-            </ScrollViewer>
-          </StackPanel>
+          <ScrollViewer>
+            <StackPanel Orientation="Vertical" Spacing="20">
+              <Border Background="Black" Opacity="0.5">
+                <StackPanel Orientation="Vertical" Opacity="100">
+                  <TextBlock Text="Add Coordinates" HorizontalAlignment="Center" Margin="20 20 20 20" />
+                  <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20 0 20 20">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                      <RowDefinition Height="Auto" />
+                      <RowDefinition Height="Auto" />
+                      <RowDefinition Height="Auto" />
+                      <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Orientation="Vertical" Margin="0 0 0 5">
+                      <Label Content="Name:" />
+                      <TextBox HorizontalAlignment="Stretch" Margin="0 0 0 0" Text="{Binding Name}" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Orientation="Vertical" Margin="0 5 0 5">
+                      <Label Content="Latitude:" />
+                      <TextBox HorizontalAlignment="Stretch" Margin="0 0 0 0" Text="{Binding Latitude}" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Orientation="Vertical" Margin="0 5 0 5">
+                      <Label Content="Longitude:" />
+                      <TextBox HorizontalAlignment="Stretch" Margin="0 0 0 0" Text="{Binding Longitude}" />
+                    </StackPanel>
+                    <Button Grid.Column="0" Grid.Row="3" Content="Add" IsEnabled="{Binding !UpdatingGeoCoordinate}" VerticalAlignment="Center" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="0 5 5 0" Command="{Binding AddGeoCoordinateCommand}" />
+                    <Button Grid.Column="1" Grid.Row="3" Content="Update" IsEnabled="{Binding UpdatingGeoCoordinate}" VerticalAlignment="Center" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="5 5 0 0" />
+                  </Grid>
+                </StackPanel>
+              </Border>
+              <Border Background="Black" Opacity="0.5">
+                <DockPanel Opacity="100">
+                  <TextBlock Text="Current Geo Coordinates" HorizontalAlignment="Center" Margin="20 20 20 20" DockPanel.Dock="Top" />
+                  <ListBox ItemsSource="{Binding GeoCoordinates}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectedItem="{Binding SelectedGeoCoordinate}" Margin="20 0 20 20" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single,Toggle" Height="300">
+                    <ListBox.ItemTemplate>
+                      <DataTemplate>
+                        <Grid>
+                          <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                          </Grid.ColumnDefinitions>
+                          <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                          </Grid.RowDefinitions>
+                          <TextBlock Grid.Column="0" Grid.Row="0" Text="Name: " />
+                          <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Name}" />
+                          <TextBlock Grid.Column="0" Grid.Row="1" Text="Latitude: " />
+                          <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Latitude}" />
+                          <TextBlock Grid.Column="0" Grid.Row="2" Text="Longitude: " />
+                          <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding Longitude}" />
+                        </Grid>
+                      </DataTemplate>
+                    </ListBox.ItemTemplate>
+                  </ListBox>
+                </DockPanel>
+              </Border>
+            </StackPanel>
+          </ScrollViewer>
         </DockPanel>
       </SplitView.Pane>
-      <avalonia:MapControl x:Name="MapControl" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+      <avalonia:MapControl x:Name="MapControl" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+      </avalonia:MapControl>
     </SplitView>
     <Popup x:Name="LoginPopup" Loaded="LoginPopupLoaded" Grid.Row="1" IsOpen="{Binding !IsUserLoggedIn}" Placement="AnchorAndGravity"
            Width="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=Width}"

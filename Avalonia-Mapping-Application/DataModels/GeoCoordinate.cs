@@ -1,10 +1,12 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Avalonia_Mapping_Application.DataModels
 {
     public class GeoCoordinate
     {
-        [BsonElement("ID")]
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
         public string ID { get; set; }
 
         [BsonElement("Name")]

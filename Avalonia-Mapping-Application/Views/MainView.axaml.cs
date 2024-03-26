@@ -1,13 +1,12 @@
-﻿using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using Mapsui;
 using Mapsui.Extensions;
 using Mapsui.Tiling;
+using Mapsui.Widgets;
 using Mapsui.Widgets.MouseCoordinatesWidget;
 using Mapsui.Widgets.Zoom;
-using ReactiveUI;
 
 namespace Avalonia_Mapping_Application.Views;
 

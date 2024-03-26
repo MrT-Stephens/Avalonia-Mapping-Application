@@ -36,20 +36,12 @@
             </Expander.Header>
 
             <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" Margin="10 10 10 10" Spacing="10">
-              <Button HorizontalAlignment="Stretch" Padding="10">
-                <StackPanel Orientation="Horizontal" Spacing="20">
-                  <PathIcon Data="{StaticResource AccountIcon}" VerticalAlignment="Center" />
-                  <TextBlock Text="Profile" VerticalAlignment="Center" />
-                </StackPanel>
-              </Button>
-
               <Button HorizontalAlignment="Stretch" Padding="10" Command="{Binding LogoutCommand}">
                 <StackPanel Orientation="Horizontal" Spacing="20">
                   <PathIcon Data="{StaticResource LogoutIcon}" VerticalAlignment="Center" />
                   <TextBlock Text="Logout" VerticalAlignment="Center" />
                 </StackPanel>
               </Button>
-
             </StackPanel>
           </Expander>
 
@@ -82,13 +74,14 @@
                       <TextBox HorizontalAlignment="Stretch" Margin="0 0 0 0" Text="{Binding Longitude}" />
                     </StackPanel>
                     <Button Grid.Column="0" Grid.Row="3" Content="Add" IsEnabled="{Binding !UpdatingGeoCoordinate}" VerticalAlignment="Center" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="0 5 5 0" Command="{Binding AddGeoCoordinateCommand}" />
-                    <Button Grid.Column="1" Grid.Row="3" Content="Update" IsEnabled="{Binding UpdatingGeoCoordinate}" VerticalAlignment="Center" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="5 5 0 0" />
+                    <Button Grid.Column="1" Grid.Row="3" Content="Update" IsEnabled="{Binding UpdatingGeoCoordinate}" VerticalAlignment="Center" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="5 5 0 0" Command="{Binding UpdateGeoCoordinateCommand}" />
                   </Grid>
                 </StackPanel>
               </Border>
               <Border Background="Black" Opacity="0.5">
                 <DockPanel Opacity="100">
                   <TextBlock Text="Current Geo Coordinates" HorizontalAlignment="Center" Margin="20 20 20 20" DockPanel.Dock="Top" />
+                  <Button Content="Remove" HorizontalAlignment="Stretch" IsEnabled="{Binding UpdatingGeoCoordinate}" HorizontalContentAlignment="Center" Margin="20 0 20 20" DockPanel.Dock="Bottom" Command="{Binding RemoveGeoCoordinateCommand}" />
                   <ListBox ItemsSource="{Binding GeoCoordinates}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectedItem="{Binding SelectedGeoCoordinate}" Margin="20 0 20 20" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single,Toggle" Height="300">
                     <ListBox.ItemTemplate>
                       <DataTemplate>

@@ -1,12 +1,22 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
+using Avalonia_Mapping_Application.DataModels;
+using Avalonia_Mapping_Application.ViewModels;
 using Mapsui;
+using Mapsui.Animations;
 using Mapsui.Extensions;
+using Mapsui.Layers;
+using Mapsui.Projections;
+using Mapsui.Providers;
+using Mapsui.Styles;
 using Mapsui.Tiling;
 using Mapsui.Widgets;
 using Mapsui.Widgets.MouseCoordinatesWidget;
 using Mapsui.Widgets.Zoom;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Avalonia_Mapping_Application.Views;
 
@@ -17,6 +27,15 @@ public partial class MainView : UserControl
         InitializeComponent();
 
         SizeChanged += (sender, args) => ResizeLoginPopup(LoginPopup);
+        Loaded += (sender, args) =>
+        {
+            if (DataContext is MainViewModel mainViewModel)
+            {
+                mainViewModel.GeoCoordinatesChanged += GeoCoordinatesChanged;
+                mainViewModel.GeoCoordinatesSelected += GeoCoordinatesSelected;
+                mainViewModel.UserLoggedOut += UserLoggedOut;
+            }
+        };
     }
 
     private void InitializeComponent()
@@ -27,6 +46,21 @@ public partial class MainView : UserControl
         MapControl.Map.Navigator.RotationLock = false;
         MapControl.Map.Widgets.Add(CreateMouseCoordinatesWidget(MapControl.Map, Mapsui.Widgets.VerticalAlignment.Bottom, Mapsui.Widgets.HorizontalAlignment.Right));
         MapControl.Map.Widgets.Add(CreateZoomInOutWidget(Orientation.Horizontal, Mapsui.Widgets.VerticalAlignment.Top, Mapsui.Widgets.HorizontalAlignment.Right));
+
+        MapControl.Map.Info += MapOnInfo;
+
+        MapControl.Map.Widgets.Add(CreateMapInfoWidget(MapControl.Map, Mapsui.Widgets.VerticalAlignment.Bottom, Mapsui.Widgets.HorizontalAlignment.Left));
+    }
+
+    private static MapInfoWidget CreateMapInfoWidget(Map map, Mapsui.Widgets.VerticalAlignment verticalAlignment, Mapsui.Widgets.HorizontalAlignment horizontalAlignment)
+    {
+        return new MapInfoWidget(map)
+        {
+            VerticalAlignment = verticalAlignment,
+            HorizontalAlignment = horizontalAlignment,
+            MarginX = 20,
+            MarginY = 20,
+        };
     }
 
     private static MouseCoordinatesWidget CreateMouseCoordinatesWidget(Map map, Mapsui.Widgets.VerticalAlignment verticalAlignment, Mapsui.Widgets.HorizontalAlignment horizontalAlignment)
@@ -52,6 +86,32 @@ public partial class MainView : UserControl
         };
     }
 
+    private static MemoryLayer CreatePointLayer(IEnumerable<IFeature> geoCoordinates)
+    {
+        return new MemoryLayer
+        {
+            Name = "Geo Coordinates Layer",
+            IsMapInfoLayer = true,
+            Features = new MemoryProvider(geoCoordinates).Features,
+            Style = SymbolStyles.CreatePinStyle(symbolScale: 0.7),
+        };
+    }
+
+    private static CalloutStyle CreateCalloutStyle(string content)
+    {
+        return new CalloutStyle
+        {
+            Title = content,
+            TitleFont = { FontFamily = null, Size = 12, Italic = false, Bold = true },
+            TitleFontColor = Color.Gray,
+            MaxWidth = 120,
+            RectRadius = 10,
+            ShadowWidth = 4,
+            Enabled = false,
+            SymbolOffset = new Offset(0, SymbolStyle.DefaultHeight * 1f)
+        };
+    }
+
     private void LoginPopupLoaded(object sender, RoutedEventArgs e)
     {
         ResizeLoginPopup((Popup)sender);
@@ -66,5 +126,81 @@ public partial class MainView : UserControl
             popup.Height = topLevel.Height;
             popup.Width = topLevel.Width;
         }
+    }
+
+    private void MapOnInfo(object? sender, MapInfoEventArgs e)
+    {
+        if (DataContext is MainViewModel mainViewModel)
+        {
+            var mPoint = SphericalMercator.ToLonLat(e.MapInfo?.WorldPosition);
+
+            mainViewModel.Latitude = mPoint.Y.ToString();
+            mainViewModel.Longitude = mPoint.X.ToString();
+        }
+
+        var calloutStyle = e.MapInfo?.Feature?.Styles.Where(s => s is CalloutStyle).Cast<CalloutStyle>().FirstOrDefault();
+
+        if (calloutStyle != null)
+        {
+            calloutStyle.Enabled = !calloutStyle.Enabled;
+            e.MapInfo?.Layer?.DataHasChanged();
+        }
+    }
+
+    private void GeoCoordinatesSelected(object? sender, EventArgs e)
+    {
+        if (sender is GeoCoordinate geoCoordinate)
+        {
+            MapControl.Map.Navigator.CenterOnAndZoomTo(SphericalMercator.FromLonLat(geoCoordinate.Longitude, geoCoordinate.Latitude).ToMPoint(), 1000.0, 1000, Easing.CubicInOut);
+        }
+        else
+        {
+            MapControl.Map.Navigator.CenterOnAndZoomTo(SphericalMercator.FromLonLat(0, 0).ToMPoint(), 20000.0, 1000, Easing.CubicInOut);
+        }
+    }
+
+    private void GeoCoordinatesChanged(object? sender, EventArgs e)
+    {
+        if (sender is List<GeoCoordinate> geoCoordinates)
+        {
+            if (MapControl.Map.Layers.Count > 1)
+            {
+                ((MemoryLayer)MapControl.Map.Layers[1]).Features = geoCoordinates.Select(c =>
+                {
+                    var feature = new PointFeature(SphericalMercator.FromLonLat(c.Longitude, c.Latitude).ToMPoint());
+
+                    feature[nameof(GeoCoordinate.Name)] = c.Name;
+                    feature[nameof(GeoCoordinate.Latitude)] = c.Latitude;
+                    feature[nameof(GeoCoordinate.Longitude)] = c.Longitude;
+
+                    feature.Styles.Add(CreateCalloutStyle(feature.ToStringOfKeyValuePairs()));
+
+                    return feature;
+                });
+
+                MapControl.Map.Layers[1].DataHasChanged();
+            }
+            else
+            {
+                MapControl.Map.Layers.Add(CreatePointLayer(geoCoordinates.Select(c =>
+                {
+                    var feature = new PointFeature(SphericalMercator.FromLonLat(c.Longitude, c.Latitude).ToMPoint());
+
+                    feature[nameof(GeoCoordinate.Name)] = c.Name;
+                    feature[nameof(GeoCoordinate.Latitude)] = c.Latitude;
+                    feature[nameof(GeoCoordinate.Longitude)] = c.Longitude;
+
+                    feature.Styles.Add(CreateCalloutStyle(feature.ToStringOfKeyValuePairs()));
+
+                    return feature;
+                })));
+            }
+        }
+    }
+
+    private void UserLoggedOut(object? sender, EventArgs e)
+    {
+        MapControl.Map.Layers.Clear();
+        MapControl.Map.Layers.Add(OpenStreetMap.CreateTileLayer());
     }
 }

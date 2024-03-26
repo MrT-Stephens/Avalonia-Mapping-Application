@@ -44,9 +44,9 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty]
     private string _Longitude = string.Empty;
 
-    // The Email property is a string value that represents the email address of the user.
+    // The Username property is a string value that represents the username of the user.
     [ObservableProperty]
-    private string _Email = string.Empty;
+    private string _Username = string.Empty;
 
     // The Password property is a string value that represents the password of the user.
     [ObservableProperty]
@@ -106,9 +106,9 @@ public partial class MainViewModel : ViewModelBase
     [RelayCommand]
     private async Task Login()
     {
-        if (!Regex.IsMatch(Email, @"^[a-z0-9][-a-z0-9._]+@([-a-z0-9]+\.)+[a-z]{2,5}$"))
+        if (!Regex.IsMatch(Username, @"^[a-zA-Z0-9_-]{3,50}$"))
         {
-            LoginStatus = "Please enter a valid email. E.g. example@example.com";
+            LoginStatus = "Please enter a valid username. E.g. example123";
             return;
         }
         else if (!Regex.IsMatch(Password, @"((?=.*\d)(?=.*[A-Z]).{8,50})"))
@@ -119,8 +119,8 @@ public partial class MainViewModel : ViewModelBase
         else
         {
             LoginStatus = "Logging in...";
-            IsUserLoggedIn = await DataBaseService.Connect(Email, Password);
-            Email = string.Empty;
+            IsUserLoggedIn = await DataBaseService.Connect(Username, Password);
+            Username = string.Empty;
             Password = string.Empty;
 
             if (IsUserLoggedIn)

@@ -122,8 +122,8 @@
           <StackPanel Orientation="Vertical" Spacing="20">
             <TextBlock Text="Login to your account" HorizontalAlignment="Center" Margin="25 0 25 0"/>
             <StackPanel Orientation="Vertical">
-              <Label Content="Email:" />
-              <TextBox Text="{Binding Email}" HorizontalAlignment="Stretch" />
+              <Label Content="Username:" />
+              <TextBox Text="{Binding Username}" HorizontalAlignment="Stretch" />
             </StackPanel>
             <StackPanel Orientation="Vertical">
               <Label Content="Password:" />

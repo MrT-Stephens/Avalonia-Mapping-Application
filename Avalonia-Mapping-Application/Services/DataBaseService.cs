@@ -19,12 +19,12 @@ namespace Avalonia_Mapping_Application.Services
             collection = null;
         }
 
-        public Task<bool> Connect(string email, string password)
+        public Task<bool> Connect(string username, string password)
         {
             return Task.Run(() =>
             {
                 var settings = MongoClientSettings.FromConnectionString(
-                    $"mongodb+srv://{WebUtility.UrlEncode(email.Split('@')[0])}:{WebUtility.UrlEncode(password)}@mrt-stephens.x797uqs.mongodb.net/?retryWrites=true&w=majority&appName=MrT-Stephens");
+                    $"mongodb+srv://{WebUtility.UrlEncode(username)}:{WebUtility.UrlEncode(password)}@mrt-stephens.x797uqs.mongodb.net/?retryWrites=true&w=majority&appName=MrT-Stephens");
 
                 settings.ServerApi = new ServerApi(ServerApiVersion.V1);
 

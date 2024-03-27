@@ -6,7 +6,7 @@
         xmlns:views="clr-namespace:Avalonia_Mapping_Application.Views"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Avalonia_Mapping_Application.Views.MainWindow"
-        Icon="/Assets/avalonia-logo.ico"
+        Icon="/Assets/map-pins.ico"
         Title="Avalonia_Mapping_Application">
         <views:MainView />
 </Window>

@@ -10,6 +10,12 @@
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
 
+  
+  <ItemGroup>
+    <None Remove="Assets\map-pins.ico" />
+    <None Remove="Assets\map-pins.png" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="11.0.10" />
     <PackageReference Include="Avalonia.ThemeManager" Version="11.0.0" />

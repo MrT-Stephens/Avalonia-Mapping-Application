@@ -28,7 +28,10 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
               </Grid.ColumnDefinitions>
-              <TextBlock Grid.Column="0" Text="Mapping Application" VerticalAlignment="Center" />
+              <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="10">
+                <Image Source="/Assets/map-pins.ico" Width="40" Height="40" VerticalAlignment="Center" />
+                <TextBlock Text="Mapping Application" VerticalAlignment="Center" />
+              </StackPanel>
               <Button Grid.Column="1" VerticalAlignment="Center" Button.Click="LightDarkModeButtonClicked" Loaded="LightDarkModeButtonLoaded" />
             </Grid>
           </Border>
@@ -118,7 +121,7 @@
           </ScrollViewer>
         </DockPanel>
       </SplitView.Pane>
-      <avalonia:MapControl x:Name="MapControl" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+      <avalonia:MapControl x:Name="MapControl" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent">
       </avalonia:MapControl>
     </SplitView>
     <Popup x:Name="LoginPopup" Loaded="LoginPopupLoaded" Grid.Row="1" IsOpen="{Binding !IsUserLoggedIn}" Placement="AnchorAndGravity"

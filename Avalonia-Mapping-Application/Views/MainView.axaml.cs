@@ -1,5 +1,4 @@
-﻿using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using Avalonia.Media;
@@ -18,13 +17,14 @@ using Mapsui.Widgets.MouseCoordinatesWidget;
 using Mapsui.Widgets.Zoom;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace Avalonia_Mapping_Application.Views;
 
 public partial class MainView : UserControl
 {
+    // This method binds the events to the MainViewModel
+    // and initializes the MapControl and its components
     public MainView()
     {
         InitializeComponent();
@@ -41,6 +41,7 @@ public partial class MainView : UserControl
         };
     }
 
+    // This method initializes the MapControl and its components
     private void InitializeComponent()
     {
         InitializeComponent(true);
@@ -55,6 +56,7 @@ public partial class MainView : UserControl
         MapControl.Map.Widgets.Add(CreateMapInfoWidget(MapControl.Map, Mapsui.Widgets.VerticalAlignment.Bottom, Mapsui.Widgets.HorizontalAlignment.Left));
     }
 
+    // Static method to create the MapInfoWidget
     private static MapInfoWidget CreateMapInfoWidget(Map map, Mapsui.Widgets.VerticalAlignment verticalAlignment, Mapsui.Widgets.HorizontalAlignment horizontalAlignment)
     {
         return new MapInfoWidget(map)
@@ -66,6 +68,7 @@ public partial class MainView : UserControl
         };
     }
 
+    // Static method to create the MouseCoordinatesWidget
     private static MouseCoordinatesWidget CreateMouseCoordinatesWidget(Map map, Mapsui.Widgets.VerticalAlignment verticalAlignment, Mapsui.Widgets.HorizontalAlignment horizontalAlignment)
     {
         return new MouseCoordinatesWidget(map)
@@ -77,6 +80,7 @@ public partial class MainView : UserControl
         };
     }
 
+    // Static method to create the ZoomInOutWidget
     private static ZoomInOutWidget CreateZoomInOutWidget(Orientation orientation, Mapsui.Widgets.VerticalAlignment verticalAlignment, Mapsui.Widgets.HorizontalAlignment horizontalAlignment)
     {
         return new ZoomInOutWidget
@@ -89,6 +93,8 @@ public partial class MainView : UserControl
         };
     }
 
+    // Static method to create the PointLayer
+    // This method creates a layer with the given geoCoordinates
     private static MemoryLayer CreatePointLayer(IEnumerable<IFeature> geoCoordinates)
     {
         return new MemoryLayer
@@ -100,6 +106,8 @@ public partial class MainView : UserControl
         };
     }
 
+    // Static method to create the CalloutStyle
+    // This is the style of the callout that appears when a point is clicked
     private static CalloutStyle CreateCalloutStyle(string content)
     {
         return new CalloutStyle
@@ -115,11 +123,15 @@ public partial class MainView : UserControl
         };
     }
 
+    // This method is called when the LoginPopup is loaded
+    // It resizes the LoginPopup to the size of the top level window
     private void LoginPopupLoaded(object sender, RoutedEventArgs e)
     {
         ResizeLoginPopup((Popup)sender);
     }
 
+    // This method is called when the LoginPopup is opened
+    // It resizes the LoginPopup to the size of the top level window
     private void ResizeLoginPopup(Popup popup)
     {
         var topLevel = TopLevel.GetTopLevel(this);
@@ -131,6 +143,9 @@ public partial class MainView : UserControl
         }
     }
 
+    // This method is called when the map is clicked
+    // It updates the Latitude and Longitude properties of the MainViewModel
+    // and toggles the callout style of the clicked point
     private void MapOnInfo(object? sender, MapInfoEventArgs e)
     {
         if (DataContext is MainViewModel mainViewModel)
@@ -150,6 +165,9 @@ public partial class MainView : UserControl
         }
     }
 
+    // This method is called when the GeoCoordinatesSelected event is raised
+    // It centers the map on the selected GeoCoordinate, if there is a geoCoordinate
+    // Otherwise, it centers the map on the default coordinates
     private void GeoCoordinatesSelected(object? sender, EventArgs e)
     {
         if (sender is GeoCoordinate geoCoordinate)
@@ -162,6 +180,10 @@ public partial class MainView : UserControl
         }
     }
 
+    // This method is called when the GeoCoordinatesChanged event is raised
+    // It updates the GeoCoordinates layer with the new GeoCoordinates
+    // If the GeoCoordinates layer already exists, it updates the features
+    // Otherwise, it creates a new layer with the new GeoCoordinates
     private void GeoCoordinatesChanged(object? sender, EventArgs e)
     {
         if (sender is List<GeoCoordinate> geoCoordinates)
@@ -201,12 +223,16 @@ public partial class MainView : UserControl
         }
     }
 
+    // This method is called when the UserLoggedOut event is raised
+    // It clears the map layers and adds the OpenStreetMap layer
     private void UserLoggedOut(object? sender, EventArgs e)
     {
         MapControl.Map.Layers.Clear();
         MapControl.Map.Layers.Add(OpenStreetMap.CreateTileLayer());
     }
 
+    // This method is called when the LightDarkModeButton is clicked
+    // It switches the theme between Light and Dark mode
     private void LightDarkModeButtonClicked(object sender, RoutedEventArgs args)
     {
         if (sender is Button button)
@@ -232,6 +258,8 @@ public partial class MainView : UserControl
         }
     }
 
+    // This method is called when the LightDarkModeButton is loaded
+    // It sets the icon of the LightDarkModeButton based on the current theme
     private void LightDarkModeButtonLoaded(object? sender, RoutedEventArgs e)
     {
         if (sender is Button button)

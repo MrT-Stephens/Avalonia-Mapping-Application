@@ -1,6 +1,8 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
+using Avalonia.Media;
 using Avalonia_Mapping_Application.DataModels;
 using Avalonia_Mapping_Application.ViewModels;
 using Mapsui;
@@ -16,6 +18,7 @@ using Mapsui.Widgets.MouseCoordinatesWidget;
 using Mapsui.Widgets.Zoom;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Avalonia_Mapping_Application.Views;
@@ -103,7 +106,7 @@ public partial class MainView : UserControl
         {
             Title = content,
             TitleFont = { FontFamily = null, Size = 12, Italic = false, Bold = true },
-            TitleFontColor = Color.Gray,
+            TitleFontColor = Mapsui.Styles.Color.Gray,
             MaxWidth = 120,
             RectRadius = 10,
             ShadowWidth = 4,
@@ -202,5 +205,53 @@ public partial class MainView : UserControl
     {
         MapControl.Map.Layers.Clear();
         MapControl.Map.Layers.Add(OpenStreetMap.CreateTileLayer());
+    }
+
+    private void LightDarkModeButtonClicked(object sender, RoutedEventArgs args)
+    {
+        if (sender is Button button)
+        {
+            if (App.Current?.ActualThemeVariant.ToString() == "Dark")
+            {
+                PathIcon pathIcon = new PathIcon();
+                pathIcon.Data = (StreamGeometry)App.Current?.Resources["DarkModeIcon"];
+                pathIcon.Width = 24;
+                pathIcon.Height = 24;
+                button.Content = pathIcon;
+                App.ThemeManager?.Switch(0);
+            }
+            else
+            {
+                PathIcon pathIcon = new PathIcon();
+                pathIcon.Data = (StreamGeometry)App.Current?.Resources["LightModeIcon"];
+                pathIcon.Width = 24;
+                pathIcon.Height = 24;
+                button.Content = pathIcon;
+                App.ThemeManager?.Switch(1);
+            }
+        }
+    }
+
+    private void LightDarkModeButtonLoaded(object? sender, RoutedEventArgs e)
+    {
+        if (sender is Button button)
+        {
+            if (App.Current?.ActualThemeVariant.ToString() == "Dark")
+            {
+                PathIcon pathIcon = new PathIcon();
+                pathIcon.Data = (StreamGeometry)App.Current?.Resources["LightModeIcon"];
+                pathIcon.Width = 24;
+                pathIcon.Height = 24;
+                button.Content = pathIcon;
+            }
+            else
+            {
+                PathIcon pathIcon = new PathIcon();
+                pathIcon.Data = (StreamGeometry)App.Current?.Resources["DarkModeIcon"];
+                pathIcon.Width = 24;
+                pathIcon.Height = 24;
+                button.Content = pathIcon;
+            }
+        }
     }
 }

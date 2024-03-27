@@ -23,7 +23,14 @@
         <DockPanel VerticalAlignment="Stretch">
 
           <Border DockPanel.Dock="Top" Margin="20 20 20 20" HorizontalAlignment="Stretch">
-            <TextBlock Text="Mapping Application" />
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <TextBlock Grid.Column="0" Text="Mapping Application" VerticalAlignment="Center" />
+              <Button Grid.Column="1" VerticalAlignment="Center" Button.Click="LightDarkModeButtonClicked" Loaded="LightDarkModeButtonLoaded" />
+            </Grid>
           </Border>
 
           <Expander DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" ExpandDirection="Up" ZIndex="50">
@@ -95,12 +102,12 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                           </Grid.RowDefinitions>
-                          <TextBlock Grid.Column="0" Grid.Row="0" Text="Name: " />
-                          <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Name}" />
-                          <TextBlock Grid.Column="0" Grid.Row="1" Text="Latitude: " />
-                          <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Latitude}" />
-                          <TextBlock Grid.Column="0" Grid.Row="2" Text="Longitude: " />
-                          <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding Longitude}" />
+                          <TextBlock Grid.Column="0" Grid.Row="0" Text="Name: " Margin="0 0 0 2"/>
+                          <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Name}" Margin="0 0 0 2" />
+                          <TextBlock Grid.Column="0" Grid.Row="1" Text="Latitude: " Margin="0 2 0 2" />
+                          <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Latitude}" Margin="0 2 0 2" />
+                          <TextBlock Grid.Column="0" Grid.Row="2" Text="Longitude: " Margin="0 2 0 0" />
+                          <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding Longitude}" Margin="0 2 0 0" />
                         </Grid>
                       </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -120,13 +127,13 @@
       <Border Background="Black" Opacity="20">
         <Border HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="WhiteSmoke" BorderThickness="2" Padding="20" CornerRadius="20" Margin="20 20 20 20" MaxWidth="350">
           <StackPanel Orientation="Vertical" Spacing="20">
-            <TextBlock Text="Login to your account" HorizontalAlignment="Center" Margin="25 0 25 0"/>
+            <TextBlock Text="Login to your account" HorizontalAlignment="Center" Margin="25 0 25 0" Foreground="White" />
             <StackPanel Orientation="Vertical">
-              <Label Content="Username:" />
+              <Label Content="Username:" Foreground="White" />
               <TextBox Text="{Binding Username}" HorizontalAlignment="Stretch" />
             </StackPanel>
             <StackPanel Orientation="Vertical">
-              <Label Content="Password:" />
+              <Label Content="Password:" Foreground="White" />
               <TextBox Text="{Binding Password}" HorizontalAlignment="Stretch" PasswordChar="*" />
             </StackPanel>
             <TextBlock Text="{Binding LoginStatus}" TextWrapping="Wrap" FontSize="12" Foreground="Red" HorizontalAlignment="Center" IsVisible="{Binding LoginStatusNotEmpty}" />

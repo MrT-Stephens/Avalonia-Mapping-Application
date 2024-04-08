@@ -18,49 +18,78 @@
       <RowDefinition Height="*" />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    <SplitView Grid.Row="0" DisplayMode="Inline" PanePlacement="Left" IsPaneOpen="{Binding IsUserLoggedIn}">
+    <SplitView Grid.Row="0" 
+               DisplayMode="Inline" 
+               PanePlacement="Left" 
+               IsPaneOpen="{Binding IsUserLoggedIn}">
       <SplitView.Pane>
         <DockPanel VerticalAlignment="Stretch">
-
-          <Border DockPanel.Dock="Top" Margin="20 20 20 20" HorizontalAlignment="Stretch">
+          <Border DockPanel.Dock="Top" 
+                  Margin="20 20 20 20" 
+                  HorizontalAlignment="Stretch">
             <Grid>
               <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
               </Grid.ColumnDefinitions>
-              <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="10">
-                <Image Source="/Assets/map-pins.ico" Width="40" Height="40" VerticalAlignment="Center" />
-                <TextBlock Text="Mapping Application" VerticalAlignment="Center" />
+              <StackPanel Grid.Column="0" 
+                          Orientation="Horizontal" 
+                          Spacing="10">
+                <Image Source="/Assets/map-pins.ico" 
+                       Width="40" Height="40" 
+                       VerticalAlignment="Center" />
+                <TextBlock Text="Mapping Application" 
+                           VerticalAlignment="Center" />
               </StackPanel>
-              <Button Grid.Column="1" VerticalAlignment="Center" Button.Click="LightDarkModeButtonClicked" Loaded="LightDarkModeButtonLoaded" />
+              <Button Grid.Column="1" 
+                      VerticalAlignment="Center" 
+                      Button.Click="LightDarkModeButtonClicked" 
+                      Loaded="LightDarkModeButtonLoaded" />
             </Grid>
           </Border>
-
-          <Expander DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" ExpandDirection="Up" ZIndex="50">
-
+          <Expander DockPanel.Dock="Bottom" 
+                    HorizontalAlignment="Stretch" 
+                    ExpandDirection="Up" 
+                    ZIndex="50">
             <Expander.Header>
-              <StackPanel Orientation="Horizontal" Spacing="20">
-                <PathIcon Data="{StaticResource AccountIcon}" VerticalAlignment="Center" />
-                <TextBlock Text="Account" VerticalAlignment="Center" />
+              <StackPanel Orientation="Horizontal" 
+                          Spacing="20">
+                <PathIcon Data="{StaticResource AccountIcon}" 
+                          VerticalAlignment="Center" />
+                <TextBlock Text="Account" 
+                           VerticalAlignment="Center" />
               </StackPanel>
             </Expander.Header>
-
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" Margin="10 10 10 10" Spacing="10">
-              <Button HorizontalAlignment="Stretch" Padding="10" Command="{Binding LogoutCommand}">
-                <StackPanel Orientation="Horizontal" Spacing="20">
-                  <PathIcon Data="{StaticResource LogoutIcon}" VerticalAlignment="Center" />
-                  <TextBlock Text="Logout" VerticalAlignment="Center" />
+            <StackPanel Orientation="Vertical" 
+                        HorizontalAlignment="Stretch" 
+                        Margin="10 10 10 10" 
+                        Spacing="10">
+              <Button HorizontalAlignment="Stretch" 
+                      Padding="10" 
+                      Command="{Binding LogoutCommand}">
+                <StackPanel Orientation="Horizontal" 
+                            Spacing="20">
+                  <PathIcon Data="{StaticResource LogoutIcon}" 
+                            VerticalAlignment="Center" />
+                  <TextBlock Text="Logout" 
+                             VerticalAlignment="Center" />
                 </StackPanel>
               </Button>
             </StackPanel>
           </Expander>
-
           <ScrollViewer>
-            <StackPanel Orientation="Vertical" Spacing="20">
-              <Border Background="Black" Opacity="0.5">
-                <StackPanel Orientation="Vertical" Opacity="100">
-                  <TextBlock Text="Add Coordinates" HorizontalAlignment="Center" Margin="20 20 20 20" />
-                  <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20 0 20 20">
+            <StackPanel Orientation="Vertical" 
+                        Spacing="20">
+              <Border Background="Black" 
+                      Opacity="0.5">
+                <StackPanel Orientation="Vertical" 
+                            Opacity="100">
+                  <TextBlock Text="Add Coordinates" 
+                             HorizontalAlignment="Center" 
+                             Margin="20 20 20 20" />
+                  <Grid HorizontalAlignment="Stretch" 
+                        VerticalAlignment="Stretch" 
+                        Margin="20 0 20 20">
                     <Grid.ColumnDefinitions>
                       <ColumnDefinition Width="*" />
                       <ColumnDefinition Width="*" />
@@ -71,28 +100,79 @@
                       <RowDefinition Height="Auto" />
                       <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <StackPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Orientation="Vertical" Margin="0 0 0 5">
+                    <StackPanel Grid.Column="0" 
+                                Grid.Row="0" 
+                                Grid.ColumnSpan="2" 
+                                Orientation="Vertical" 
+                                Margin="0 0 0 5">
                       <Label Content="Name:" />
-                      <TextBox HorizontalAlignment="Stretch" Margin="0 0 0 0" Text="{Binding Name}" />
+                      <TextBox HorizontalAlignment="Stretch" 
+                               Margin="0 0 0 0" 
+                               Text="{Binding Name}" />
                     </StackPanel>
-                    <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Orientation="Vertical" Margin="0 5 0 5">
+                    <StackPanel Grid.Column="0" 
+                                Grid.Row="1" 
+                                Grid.ColumnSpan="2" 
+                                Orientation="Vertical" 
+                                Margin="0 5 0 5">
                       <Label Content="Latitude:" />
-                      <TextBox HorizontalAlignment="Stretch" Margin="0 0 0 0" Text="{Binding Latitude}" />
+                      <TextBox HorizontalAlignment="Stretch" 
+                               Margin="0 0 0 0" 
+                               Text="{Binding Latitude}" />
                     </StackPanel>
-                    <StackPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Orientation="Vertical" Margin="0 5 0 5">
+                    <StackPanel Grid.Column="0" 
+                                Grid.Row="2" 
+                                Grid.ColumnSpan="2" 
+                                Orientation="Vertical" 
+                                Margin="0 5 0 5">
                       <Label Content="Longitude:" />
-                      <TextBox HorizontalAlignment="Stretch" Margin="0 0 0 0" Text="{Binding Longitude}" />
+                      <TextBox HorizontalAlignment="Stretch" 
+                               Margin="0 0 0 0" 
+                               Text="{Binding Longitude}" />
                     </StackPanel>
-                    <Button Grid.Column="0" Grid.Row="3" Content="Add" IsEnabled="{Binding !UpdatingGeoCoordinate}" VerticalAlignment="Center" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="0 5 5 0" Command="{Binding AddGeoCoordinateCommand}" />
-                    <Button Grid.Column="1" Grid.Row="3" Content="Update" IsEnabled="{Binding UpdatingGeoCoordinate}" VerticalAlignment="Center" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="5 5 0 0" Command="{Binding UpdateGeoCoordinateCommand}" />
+                    <Button Grid.Column="0" 
+                            Grid.Row="3" 
+                            Content="Add" 
+                            IsEnabled="{Binding !UpdatingGeoCoordinate}" 
+                            VerticalAlignment="Center" 
+                            HorizontalAlignment="Stretch" 
+                            HorizontalContentAlignment="Center" 
+                            Margin="0 5 5 0" 
+                            Command="{Binding AddGeoCoordinateCommand}" />
+                    <Button Grid.Column="1" 
+                            Grid.Row="3" 
+                            Content="Update" 
+                            IsEnabled="{Binding UpdatingGeoCoordinate}" 
+                            VerticalAlignment="Center" 
+                            HorizontalAlignment="Stretch" 
+                            HorizontalContentAlignment="Center" 
+                            Margin="5 5 0 0" 
+                            Command="{Binding UpdateGeoCoordinateCommand}" />
                   </Grid>
                 </StackPanel>
               </Border>
-              <Border Background="Black" Opacity="0.5">
+              <Border Background="Black" 
+                      Opacity="0.5">
                 <DockPanel Opacity="100">
-                  <TextBlock Text="Current Geo Coordinates" HorizontalAlignment="Center" Margin="20 20 20 20" DockPanel.Dock="Top" />
-                  <Button Content="Remove" HorizontalAlignment="Stretch" IsEnabled="{Binding UpdatingGeoCoordinate}" HorizontalContentAlignment="Center" Margin="20 0 20 20" DockPanel.Dock="Bottom" Command="{Binding RemoveGeoCoordinateCommand}" />
-                  <ListBox ItemsSource="{Binding GeoCoordinates}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectedItem="{Binding SelectedGeoCoordinate}" Margin="20 0 20 20" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single,Toggle" Height="300">
+                  <TextBlock Text="Current Geo Coordinates" 
+                             HorizontalAlignment="Center" 
+                             Margin="20 20 20 20" 
+                             DockPanel.Dock="Top" />
+                  <Button Content="Remove" 
+                          HorizontalAlignment="Stretch" 
+                          IsEnabled="{Binding UpdatingGeoCoordinate}" 
+                          HorizontalContentAlignment="Center" 
+                          Margin="20 0 20 20" 
+                          DockPanel.Dock="Bottom" 
+                          Command="{Binding RemoveGeoCoordinateCommand}" />
+                  <ListBox ItemsSource="{Binding GeoCoordinates}" 
+                           HorizontalAlignment="Stretch" 
+                           VerticalAlignment="Stretch" 
+                           SelectedItem="{Binding SelectedGeoCoordinate}" 
+                           Margin="20 0 20 20" 
+                           ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                           SelectionMode="Single,Toggle" 
+                           Height="300">
                     <ListBox.ItemTemplate>
                       <DataTemplate>
                         <Grid>
@@ -105,12 +185,30 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                           </Grid.RowDefinitions>
-                          <TextBlock Grid.Column="0" Grid.Row="0" Text="Name: " Margin="0 0 0 2"/>
-                          <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Name}" Margin="0 0 0 2" />
-                          <TextBlock Grid.Column="0" Grid.Row="1" Text="Latitude: " Margin="0 2 0 2" />
-                          <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Latitude}" Margin="0 2 0 2" />
-                          <TextBlock Grid.Column="0" Grid.Row="2" Text="Longitude: " Margin="0 2 0 0" />
-                          <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding Longitude}" Margin="0 2 0 0" />
+                          <TextBlock Grid.Column="0" 
+                                     Grid.Row="0" 
+                                     Text="Name: " 
+                                     Margin="0 0 0 2" />
+                          <TextBlock Grid.Column="1" 
+                                     Grid.Row="0" 
+                                     Text="{Binding Name}" 
+                                     Margin="0 0 0 2" />
+                          <TextBlock Grid.Column="0" 
+                                     Grid.Row="1" 
+                                     Text="Latitude: " 
+                                     Margin="0 2 0 2" />
+                          <TextBlock Grid.Column="1" 
+                                     Grid.Row="1" 
+                                     Text="{Binding Latitude}" 
+                                     Margin="0 2 0 2" />
+                          <TextBlock Grid.Column="0" 
+                                     Grid.Row="2" 
+                                     Text="Longitude: " 
+                                     Margin="0 2 0 0" />
+                          <TextBlock Grid.Column="1" 
+                                     Grid.Row="2" 
+                                     Text="{Binding Longitude}" 
+                                     Margin="0 2 0 0" />
                         </Grid>
                       </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -121,26 +219,58 @@
           </ScrollViewer>
         </DockPanel>
       </SplitView.Pane>
-      <avalonia:MapControl x:Name="MapControl" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent">
+      <avalonia:MapControl x:Name="MapControl" 
+                           VerticalAlignment="Stretch" 
+                           HorizontalAlignment="Stretch" 
+                           Background="Transparent">
       </avalonia:MapControl>
     </SplitView>
-    <Popup x:Name="LoginPopup" Loaded="LoginPopupLoaded" Grid.Row="1" IsOpen="{Binding !IsUserLoggedIn}" Placement="AnchorAndGravity"
+    <Popup x:Name="LoginPopup" 
+           Loaded="LoginPopupLoaded" 
+           Grid.Row="1" 
+           IsOpen="{Binding !IsUserLoggedIn}" 
+           Placement="AnchorAndGravity"
            Width="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=Width}"
            Height="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=Height}">
-      <Border Background="Black" Opacity="20">
-        <Border HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="WhiteSmoke" BorderThickness="2" Padding="20" CornerRadius="20" Margin="20 20 20 20" MaxWidth="350">
-          <StackPanel Orientation="Vertical" Spacing="20">
-            <TextBlock Text="Login to your account" HorizontalAlignment="Center" Margin="25 0 25 0" Foreground="White" />
+      <Border Background="Black" 
+              Opacity="20">
+        <Border HorizontalAlignment="Center" 
+                VerticalAlignment="Center" 
+                BorderBrush="WhiteSmoke" 
+                BorderThickness="2" 
+                Padding="20" 
+                CornerRadius="20" 
+                Margin="20 20 20 20" 
+                MaxWidth="350">
+          <StackPanel Orientation="Vertical" 
+                      Spacing="20">
+            <TextBlock Text="Login to your account" 
+                       HorizontalAlignment="Center" 
+                       Margin="25 0 25 0" 
+                       Foreground="White" />
             <StackPanel Orientation="Vertical">
-              <Label Content="Username:" Foreground="White" />
-              <TextBox Text="{Binding Username}" HorizontalAlignment="Stretch" />
+              <Label Content="Username:" 
+                     Foreground="White" />
+              <TextBox Text="{Binding Username}" 
+                       HorizontalAlignment="Stretch" />
             </StackPanel>
             <StackPanel Orientation="Vertical">
-              <Label Content="Password:" Foreground="White" />
-              <TextBox Text="{Binding Password}" HorizontalAlignment="Stretch" PasswordChar="*" />
+              <Label Content="Password:" 
+                     Foreground="White" />
+              <TextBox Text="{Binding Password}" 
+                       HorizontalAlignment="Stretch" 
+                       PasswordChar="*" />
             </StackPanel>
-            <TextBlock Text="{Binding LoginStatus}" TextWrapping="Wrap" FontSize="12" Foreground="Red" HorizontalAlignment="Center" IsVisible="{Binding LoginStatusNotEmpty}" />
-            <Button Content="Login" HorizontalAlignment="Left" Padding="30 8 30 8" Command="{Binding LoginCommand}" />
+            <TextBlock Text="{Binding LoginStatus}" 
+                       TextWrapping="Wrap" 
+                       FontSize="12" 
+                       Foreground="Red" 
+                       HorizontalAlignment="Center" 
+                       IsVisible="{Binding LoginStatusNotEmpty}" />
+            <Button Content="Login" 
+                    HorizontalAlignment="Left" 
+                    Padding="30 8 30 8" 
+                    Command="{Binding LoginCommand}" />
           </StackPanel>
         </Border>
       </Border>

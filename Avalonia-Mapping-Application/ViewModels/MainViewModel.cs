@@ -18,15 +18,11 @@ public partial class MainViewModel : ViewModelBase
     public MainViewModel()
     {
         DataBaseService = new DataBaseService();
-        GeoCoordinates = new ObservableCollection<GeoCoordinate>();
-        SelectedGeoCoordinate = null;
-        GeoCoordinatesChanged = null;
-        GeoCoordinatesSelected = null;
     }
 
     // The GeoCoordinates property is an ObservableCollection of GeoCoordinate objects.
     [ObservableProperty]
-    private ObservableCollection<GeoCoordinate> _GeoCoordinates;
+    private ObservableCollection<GeoCoordinate> _GeoCoordinates = new();
     
     // The UpdatingGeoCoordinate property is a boolean value that indicates whether the user is updating a GeoCoordinate object.
     [ObservableProperty]
@@ -61,7 +57,7 @@ public partial class MainViewModel : ViewModelBase
     private bool _LoginStatusNotEmpty = false;
 
     // The internal SelectedGeoCoordinate property is a GeoCoordinate object that represents the selected GeoCoordinate.
-    private GeoCoordinate? _SelectedGeoCoordinate;
+    private GeoCoordinate? _SelectedGeoCoordinate = null;
 
     // The external SelectedGeoCoordinate property is a GeoCoordinate object that represents the selected GeoCoordinate.
     // Will raise the SelectionChanged event when set.

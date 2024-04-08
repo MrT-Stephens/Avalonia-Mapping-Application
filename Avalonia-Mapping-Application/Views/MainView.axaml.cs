@@ -47,7 +47,7 @@ public partial class MainView : UserControl
         InitializeComponent(true);
 
         MapControl.Map.Layers.Add(OpenStreetMap.CreateTileLayer());
-        MapControl.Map.Navigator.RotationLock = false;
+        MapControl.Map.Navigator.RotationLock = true;
         MapControl.Map.Widgets.Add(CreateMouseCoordinatesWidget(MapControl.Map, Mapsui.Widgets.VerticalAlignment.Bottom, Mapsui.Widgets.HorizontalAlignment.Right));
         MapControl.Map.Widgets.Add(CreateZoomInOutWidget(Orientation.Horizontal, Mapsui.Widgets.VerticalAlignment.Top, Mapsui.Widgets.HorizontalAlignment.Right));
 

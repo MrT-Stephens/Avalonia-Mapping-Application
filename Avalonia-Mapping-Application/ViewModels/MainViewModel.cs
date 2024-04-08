@@ -6,6 +6,13 @@ using System.Threading.Tasks;
 using Avalonia_Mapping_Application.DataModels;
 using System.Collections.ObjectModel;
 using System;
+using Avalonia.Controls;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using GeoJSON.Net.Feature;
+using System.Linq;
 
 namespace Avalonia_Mapping_Application.ViewModels;
 
@@ -40,13 +47,17 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty]
     private string _Longitude = string.Empty;
 
+    // The DatasetName property is a string value that represents the name of the dataset.
+    [ObservableProperty]
+    private string _DatasetName = string.Empty;
+
     // The Username property is a string value that represents the username of the user.
     [ObservableProperty]
-    private string _Username = string.Empty;
+    private string _Username = "Shiny";
 
     // The Password property is a string value that represents the password of the user.
     [ObservableProperty]
-    private string _Password = string.Empty;
+    private string _Password = "Shiny123";
 
     // The IsUserLoggedIn property is a boolean value that indicates whether the user is logged in.
     [ObservableProperty]
@@ -190,6 +201,55 @@ public partial class MainViewModel : ViewModelBase
 
             GeoCoordinates = new ObservableCollection<GeoCoordinate>(geoCoordinates);
             GeoCoordinatesChanged?.Invoke(geoCoordinates, EventArgs.Empty);
+        }
+    }
+
+    // ImportDataset command that will import a GeoJSON dataset into the database.
+    // The GeoJSON dataset must contain Point geometries.
+    // The GeoJSON dataset must be in the format of a FeatureCollection.
+    [RelayCommand]
+    private async Task ImportDataset(object? sender)
+    {
+        if (sender is Button button && !string.IsNullOrEmpty(DatasetName))
+        {
+            var topLevel = TopLevel.GetTopLevel(button);
+
+            var files = await topLevel!.StorageProvider.OpenFilePickerAsync(new Avalonia.Platform.Storage.FilePickerOpenOptions()
+            {
+                AllowMultiple = false,
+                Title = "Select a GeoJSON dataset"
+            });
+
+            if (files.Count > 0)
+            {
+                using (var reader = new StreamReader(await files[0].OpenReadAsync()))
+                {
+                    var featureCollection = JsonConvert.DeserializeObject<FeatureCollection>(await reader.ReadToEndAsync());
+
+                    await DataBaseService.AddManyGeoCoordinates(featureCollection.Features.Select(f =>
+                    {
+                        if (f.Geometry.Type == GeoJSON.Net.GeoJSONObjectType.Point)
+                        {
+                            var point = (GeoJSON.Net.Geometry.Point)f.Geometry;
+                            return new GeoCoordinate
+                            {
+                                Name = $"{DatasetName} {featureCollection.Features.IndexOf(f)}",
+                                Latitude = point.Coordinates.Latitude,
+                                Longitude = point.Coordinates.Longitude
+                            };
+                        }
+                        else
+                        {
+                            return null;
+                        }
+                    }).ToList().Where(x => x != null).Select(x => x!).ToList());
+                }
+
+                var geoCoordinates = await DataBaseService.GetGeoCoordinates();
+
+                GeoCoordinates = new ObservableCollection<GeoCoordinate>(geoCoordinates);
+                GeoCoordinatesChanged?.Invoke(geoCoordinates, EventArgs.Empty);
+            }
         }
     }
 

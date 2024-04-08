@@ -72,6 +72,16 @@ namespace Avalonia_Mapping_Application.Services
             await collection.InsertOneAsync(geoCoordinate);
         }
 
+        public async Task AddManyGeoCoordinates(List<GeoCoordinate> geoCoordinates)
+        {
+            if (collection == null)
+            {
+                throw new Exception("Database not connected");
+            }
+
+            await collection.InsertManyAsync(geoCoordinates);
+        }
+
         // Updates a GeoCoordinate in the database, from the provided GeoCoordinate
         public async void UpdateGeoCoordinate(GeoCoordinate geoCoordinate)
         {

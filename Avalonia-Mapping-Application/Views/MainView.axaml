@@ -99,6 +99,7 @@
                       <RowDefinition Height="Auto" />
                       <RowDefinition Height="Auto" />
                       <RowDefinition Height="Auto" />
+                      <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Column="0" 
                                 Grid.Row="0" 
@@ -149,6 +150,21 @@
                             Margin="5 5 0 0" 
                             Command="{Binding UpdateGeoCoordinateCommand}" />
                   </Grid>
+                  <StackPanel Orientation="Vertical"
+                              Spacing="10"
+                              Margin="20 0 20 20">
+                    <StackPanel Orientation="Vertical">
+                      <Label Content="Dataset Name:" />
+                      <TextBox HorizontalAlignment="Stretch"
+                               Text="{Binding DatasetName}" />
+                    </StackPanel>
+                    <Button Content="Import Dataset"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Center"
+                            Command="{Binding ImportDatasetCommand}"
+                            CommandParameter="{Binding $self}" />
+                  </StackPanel>
                 </StackPanel>
               </Border>
               <Border Background="Black" 

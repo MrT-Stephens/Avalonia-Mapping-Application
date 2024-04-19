@@ -150,7 +150,7 @@ public partial class MainView : UserControl
     {
         if (DataContext is MainViewModel mainViewModel)
         {
-            var mPoint = SphericalMercator.ToLonLat(e.MapInfo?.WorldPosition);
+            var mPoint = SphericalMercator.ToLonLat(e.MapInfo?.WorldPosition ?? new MPoint(0, 0));
 
             mainViewModel.Latitude = mPoint.Y.ToString();
             mainViewModel.Longitude = mPoint.X.ToString();
@@ -172,7 +172,7 @@ public partial class MainView : UserControl
     {
         if (sender is GeoCoordinate geoCoordinate)
         {
-            MapControl.Map.Navigator.CenterOnAndZoomTo(SphericalMercator.FromLonLat(geoCoordinate.Longitude, geoCoordinate.Latitude).ToMPoint(), 1000.0, 1000, Easing.CubicInOut);
+            MapControl.Map.Navigator.CenterOnAndZoomTo(SphericalMercator.FromLonLat(geoCoordinate.Longitude, geoCoordinate.Latitude).ToMPoint(), 5.0, 1000, Easing.CubicInOut);
         }
         else
         {
@@ -240,7 +240,7 @@ public partial class MainView : UserControl
             if (App.Current?.ActualThemeVariant.ToString() == "Dark")
             {
                 PathIcon pathIcon = new PathIcon();
-                pathIcon.Data = (StreamGeometry)App.Current?.Resources["DarkModeIcon"];
+                pathIcon.Data = App.Current?.Resources["DarkModeIcon"] as StreamGeometry ?? throw new NullReferenceException();
                 pathIcon.Width = 24;
                 pathIcon.Height = 24;
                 button.Content = pathIcon;
@@ -249,7 +249,7 @@ public partial class MainView : UserControl
             else
             {
                 PathIcon pathIcon = new PathIcon();
-                pathIcon.Data = (StreamGeometry)App.Current?.Resources["LightModeIcon"];
+                pathIcon.Data = App.Current?.Resources["LightModeIcon"] as StreamGeometry ?? throw new NullReferenceException();
                 pathIcon.Width = 24;
                 pathIcon.Height = 24;
                 button.Content = pathIcon;
@@ -267,7 +267,7 @@ public partial class MainView : UserControl
             if (App.Current?.ActualThemeVariant.ToString() == "Dark")
             {
                 PathIcon pathIcon = new PathIcon();
-                pathIcon.Data = (StreamGeometry)App.Current?.Resources["LightModeIcon"];
+                pathIcon.Data = App.Current?.Resources["LightModeIcon"] as StreamGeometry ?? throw new NullReferenceException();
                 pathIcon.Width = 24;
                 pathIcon.Height = 24;
                 button.Content = pathIcon;
@@ -275,7 +275,7 @@ public partial class MainView : UserControl
             else
             {
                 PathIcon pathIcon = new PathIcon();
-                pathIcon.Data = (StreamGeometry)App.Current?.Resources["DarkModeIcon"];
+                pathIcon.Data = App.Current?.Resources["DarkModeIcon"] as StreamGeometry ?? throw new NullReferenceException();
                 pathIcon.Width = 24;
                 pathIcon.Height = 24;
                 button.Content = pathIcon;
